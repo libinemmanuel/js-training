@@ -12,32 +12,24 @@
 <script src="./resources/training.js"></script>-->
 <script type="text/javascript">
 
-	function highest(){
-  return makeArray(arguments).sort(function(a,b){
-    return b - a;
-  });
-}
+  function Ninja(){ 
+  this.swung = false; 
+   
+  // Should return true 
+  this.swingSword = function(){ 
+    this.swung = !this.swung; 
+    return this.swung; 
+  }; 
+} 
+ 
+var ninja = new Ninja(); 
+console.log( ninja.swingSword(), "Calling the instance method." ); 
+console.log( ninja.swung, "The ninja has swung the sword." ); 
+ 
+var ninjaB = new Ninja(); 
+console.log( !ninjaB.swung, "Make sure that the ninja has not swung his sword." );
 
-function makeArray(array){
-  return Array().slice.call( array );
-}
 
-
-
-
-function Employee(name, empid, depntName)
-{
-	this.name = name;
-	this.empID = empid;
-	this.department  = depntName;
-}
-
-var emp1 = new Employee("arun", "1001", "eng");
-var emp2 = new Employee("varun", "1002", "math");
-var emp3 = new Employee("tarun", "1003", "so");
-	
-console.log(highest(emp1, emp2, emp3)[0] == 3, "Get the highest value.");
-console.log(highest(3, 1, 2, 3, 4, 5)[1] == 4, "Verify the results.");
 
 </script>
 
