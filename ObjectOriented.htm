@@ -1,0 +1,236 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Object Oriented Javascript</title>
+<link rel="stylesheet" href="./resources/training.css">
+<link rel="stylesheet" href="./resources/recipes.css">
+<script src="./resources/jquery.js"></script>
+<script src="./resources/jquery.chili.js"></script>
+<script src="./resources/recipes.js"></script>
+<script src="./resources/training.js"></script>
+</head>
+<body>
+<h3 class="">Object Oriented Programming in Javascript</h3>
+<div id="area">
+<pre id="pre" class="javascript" style="height: 500px; display: block;"></pre>
+<form id="form">
+<div class="buttons" style="display: block;">
+<input type="submit" value="Run" class="run" id="run" style="display: none;">
+<input type="button" id="prev" value="<< Prev" style="visibility: visible;">
+<input type="button" id="next" value="Next >>" style="visibility: visible;">
+</div>
+<div id="container">
+	<textarea id="code" wrap="off" style="height: 500px; display: none;"></textarea>
+	<ol id="results"></ol>
+	<p id="cite" style="display: block;">Double-click the code to edit the tutorial and try your own code.</p>
+</div>
+</form>
+</div>
+<dl style="display: none;">
+<dt>Creating and using Objects</dt>
+<dd></dd>
+<dt>Object : </dt>
+<dd><pre>
+		/* is an unordered list of primitive data types stored as name-value pairs
+		* primitive types in JavaScript are numbers, strings, booleans (true and false), null, and undefined
+		* Every Object has properties & functions and is mutable
+		* A property has a name and value
+		       - name can be any string including empty string, value can be any value except undefined
+		* Different ways of creating object :*/
+		    //1)Creating Object through literal
+			var empty_obj={};
+			var me = {
+						 "first-name": "Arun",
+						 "last-name": "Krish"
+					 };
+
+			
+			//2)Creating with Object.create
+			var obj= Object.create(null);
+			
+			//3)Creating using new keyword
+			function Person(){}
+			var obj=new Person();
+</pre></dd>
+<dt>Objects with Constructors eg:</dt>	
+<dd><pre>function Person(fname,lname){
+ //Assigning values through constructor
+ this.fname=fname;
+ this.lname=lname;
+ //functions
+ this.sayHi=function(){
+  return "  :  Hi! I am " + this.fname + " " + this.lname;
+ }
+}
+//Creating person instance
+var p=new Person("Arun","Krish");
+log(p.sayHi());
+//Creating Second person instance
+var p=new Person("Ram","Krish");
+log(p.sayHi());</pre></dd>
+<dt>Objects with Literals eg:</dt>	
+<dd><pre>
+//Creating person instance
+var p={
+		fname : "Arun",
+		lname : "Krish",
+		sayHi:function(){
+			return "  :  Hi! I am " + this.fname + " " + this.lname;
+		}
+		}
+log(p.sayHi());
+//Creating Second person instance
+var p={
+		fname : "Ram",
+		lname : "Krish",
+		sayHi:function(){
+			return "  :  Hi! I am " + this.fname + " " + this.lname;
+		}
+		}
+log(p.sayHi());
+</pre></dd>
+<dt>Objects </dt>
+<dd><pre>
+	* Object Retrieval :
+		    - uses [] or the . operator, . is preferred
+			- eg : person["fname"]	// "Arun"
+			- person["middle-name"] // gives undefined
+	* Update :
+			- Value can be updated eg : person['fname'] = 'Shyam';
+	* Reference
+			- objects are passed around by reference, are never copied
+			- eg : 
+				var x = person;
+				x.nickname = 'Brownie';
+				var y = person.nickname; // y is 'Brownie' as both person & x are references to same object
+</pre></dd>
+<dt>Objects using Prototyping </dt>
+<dd></dd>
+<dt>Prototype</dt>
+<dd><pre>
+/*	
+* 	is an object from which other objects inherit properties
+* 	used to add custom properties to objects
+* 	used to add custom methods to objects
+*/	
+	function Pet(name, species){
+		this.name = name;
+		this.species = species;
+	}
+	function view(){
+		return this.name + " is a " + this.species + "!";
+	}
+	Pet.prototype.view = view;
+	var pet1 = new Pet('Gabriella', 'Dog');
+	log(" : " + pet1.view()); //Outputs "Gabriella is a Dog!"
+
+/**
+	All 'Pet' objects now have access to the view method using prototype.
+*/
+</pre></dd>
+
+<dt>Prototype - another example</dt>
+<dd><pre>
+/*	
+* 	Dog object to inherit methods and Properties of Pet object + special function for Dog
+*/	
+	function Pet(name, species){
+		this.name = name;
+		this.species = species;
+	}
+	function view(){
+		return this.name + " is a " + this.species + "!";
+	}
+	Pet.prototype.view = view;
+	function Dog(name){
+		Pet.call(this, name, "dog");
+	}
+	Dog.prototype = new Pet();
+	Dog.prototype.bark = function(){
+		log("Woof!");
+	}
+	
+	var pet1 = new Pet('Trudy', 'Bird');
+	var pet2 = new Dog('Gabriella');
+	log(pet2.view()); // Outputs "Gabriella is a Dog!"
+	pet2.bark(); // Outputs "Woof!"
+	pet1.bark(); // Error
+
+</pre></dd>
+
+<dt>Prototype chain</dt>
+<dd><pre>
+
+	function Pet(name, species){
+		this.name = name;
+		this.species = species;
+	}
+	function view(){
+		return this.name + " is a " + this.species + "!";
+	}
+	Pet.prototype.view = view;
+	function Dog(name){
+		Pet.call(this, name, "dog");
+	}
+	Dog.prototype = new Pet();
+	Dog.prototype.bark = function(){
+		log("  : Woof!");
+	}
+	
+	var pet1 = new Pet('Trudy', 'Bird');
+	var pet2 = new Dog('Gabriella');
+
+Object.prototype.whoAmI = function(){
+    log("  : I am an object!");
+}
+pet1.whoAmI(); //Outputs 'I am an object!'
+pet2.whoAmI(); //Outputs 'I am an object!'
+
+</pre></dd>
+
+
+<dt>Access Control </dt>
+<dd></dd>
+<dt>Access Control</dt>
+<dd><pre>
+/*
+	* No direct means to control access to internal variables 
+	* hence restrict access to some variables
+	* To declare and use a variable as private, there are two steps required:
+			- Declare a new variable within the constructor using the var statement.
+			- Create an anonymous function within the constructor, and assign it as a method for an object.
+*/	
+	function MyObject()
+	{
+	   this.publicNumber = 10;  // Public field.
+	   var privateNumber = 20;  // Private variable.  
+	 
+	   this.getPrivateNumber = function() 
+	   {
+		  return privateNumber;
+	   }
+	}
+ 
+testObject = new MyObject();
+</pre></dd>
+
+<dt>Object Creation Patterns </dt>
+<dd></dd>
+<dt></dt>
+<dd><pre>
+</pre></dd>
+
+<dt>Javascript Object Notation: JSON </dt>
+<dd></dd>
+<dt></dt>
+<dd><pre>
+</pre></dd>
+
+<dt>Marshalling and Unmarshalling JSON Data </dt>
+<dd></dd>
+<dt></dt>
+<dd><pre>
+</pre></dd>
+
+</dl>
+
+
+</body></html>

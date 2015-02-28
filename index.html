@@ -1,0 +1,50 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>JavaScript Functions - Advanced</title>
+
+<!--<link rel="stylesheet" href="./resources/training.css">
+<link rel="stylesheet" href="./resources/recipes.css">
+<script src="./resources/jquery.js"></script>
+<script src="./resources/jquery.chili.js"></script>
+<script src="./resources/recipes.js"></script>
+<script src="./resources/training.js"></script>-->
+<script type="text/javascript">
+
+	function highest(){
+  return makeArray(arguments).sort(function(a,b){
+    return b - a;
+  });
+}
+
+function makeArray(array){
+  return Array().slice.call( array );
+}
+
+
+
+
+function Employee(name, empid, depntName)
+{
+	this.name = name;
+	this.empID = empid;
+	this.department  = depntName;
+}
+
+var emp1 = new Employee("arun", "1001", "eng");
+var emp2 = new Employee("varun", "1002", "math");
+var emp3 = new Employee("tarun", "1003", "so");
+	
+console.log(highest(emp1, emp2, emp3)[0] == 3, "Get the highest value.");
+console.log(highest(3, 1, 2, 3, 4, 5)[1] == 4, "Verify the results.");
+
+</script>
+
+</head>
+<body>
+
+content dtgfdgf
+
+</body>
+</html>

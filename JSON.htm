@@ -1,0 +1,89 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>AJAX, JSON</title>
+<link rel="stylesheet" href="./resources/training.css">
+<link rel="stylesheet" href="./resources/recipes.css">
+<script src="./resources/jquery.js"></script>
+<script src="./resources/jquery.chili.js"></script>
+<script src="./resources/recipes.js"></script>
+<script src="./resources/training.js"></script>
+</head>
+<body>
+<h3 class="">JSON</h3>
+<div id="area">
+<div id="description" style="margin:20px;"></div>
+<pre id="pre" class="javascript"></pre>
+<form id="form">
+<div class="buttons" style="display: none;">
+<input type="submit" value="Run" class="run" id="run">
+<input type="button" id="prev" value="<< Prev">
+<input type="button" id="next" value="Next >>">
+</div>
+<div id="container">
+  <textarea id="code" wrap="off" style="height: 425px;display:none;"></textarea>
+	<ol id="results"></ol>
+	<p id="cite">Double-click the code to edit the tutorial and try your own code.</p>
+</div>
+</form>
+</div>
+<dl style="display: none;">
+<dt>JSON</dt>
+<dd></dd>
+<dt>Javascript and JSON Differences</dt>
+<dd><div><table style="border:1px;margin-top:20px">
+ <!-- <caption>
+  JavaScript and JSON differences</caption> -->
+ <thead>
+  <tr>
+   <th scope="col" style="width:30%;">JavaScript type</th>
+   <th scope="col" style="width:70%;">JSON differences</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td>Objects and Arrays</td>
+   <td>Property names must be double-quoted strings; trailing commas are forbidden.</td>
+  </tr>
+  <tr>
+   <td>Numbers</td>
+   <td>Leading zeroes are prohibited; a decimal point must be followed by at least one digit.</td>
+  </tr>
+  <tr>
+   <td>Strings</td>
+   <td>
+    <p>Only a limited sets of characters may be escaped; certain control characters are prohibited; the Unicode line separator (U+2028) and paragraph separator (U+2029) characters are permitted; strings must be double-quoted. See the following example where <a href="/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse" title="The JSON.parse() method parses a string as JSON, optionally transforming the value produced by parsing."><code>JSON.parse</code></a> works fine and a <a href="/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError" title="The SyntaxError object represents an error when trying to interpret syntactically invalid code."><code>SyntaxError</code></a> is thrown when evaluating the code as JavaScript:</p>
+   </td>
+  </tr>
+ </tbody>
+</table></div></dd>
+<dt>Parsing JSON Strings</dt>
+<dd>
+  <div>jsonString = JSON.stringify(value [, replacer [, space]])</div>
+  <pre>try {
+  // both will throw a SyntaxError as of JavaScript 1.8.5
+  var jsObject = JSON.parse("[1, 2, 3, 4, ]");
+  var jsObject = JSON.parse("{ \"foo\" : 1, }");
+} catch(e) {
+  error(e);
+}</pre></dd>
+<dt>Converting objects into JSON</dt>
+<dd><pre>var foo = {};
+foo.bar = "new property";
+foo.baz = 3;
+
+var jsonString = JSON.stringify(foo);
+log(jsonString);</pre></dd>
+<dt>Using replacer</dt>
+<dd><pre>function censor(key, value) {
+  if (typeof value === "string") {
+    return undefined;
+  }
+  return value;
+}
+
+var foo = {foundation: "Mozilla", model: "box", week: 45, transport: "car", month: 7};
+var jsonString = JSON.stringify(foo, censor);
+log(jsonString);</pre></dd>
+<dt>JSON Specification</dt>
+<dd><div><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON</a></div></dd>
+</dl>
+</body></html>

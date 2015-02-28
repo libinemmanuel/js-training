@@ -1,0 +1,192 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>HTML5 and Javscript</title>
+<link rel="stylesheet" href="./resources/training.css">
+<link rel="stylesheet" href="./resources/recipes.css">
+<script src="./resources/jquery.js"></script>
+<script src="./resources/jquery.chili.js"></script>
+<script src="./resources/recipes.js"></script>
+<script src="./resources/training.js"></script>
+</head>
+<body>
+<h3 class="">HTML5 and Javascript</h3>
+<div id="area">
+<div id="description" style="margin:40px;"></div>
+<pre id="pre" class="javascript"></pre>
+<form id="form">
+<div class="buttons" style="display: none;">
+<input type="submit" value="Run" class="run" id="run">
+<input type="button" id="prev" value="<< Prev">
+<input type="button" id="next" value="Next >>">
+</div>
+<div id="container">
+  <textarea id="code" wrap="off" style="height: 500px;display:none;"></textarea>
+	<ol id="results"></ol>
+	<p id="cite">Double-click the code to edit the tutorial and try your own code.</p>
+</div>
+</form>
+</div>
+<dl style="display: none;">
+<dt>HTML5 Caching - Using application cache</dt>
+<dd></dd>
+<dt>Objective</dt>
+<dd><div><ul class="bullets-level1"><li>Lets web based applications run offline</li>
+<li>Use the Application Cache (AppCache) interface to specify resources that the browser should cache and make available to offline users</li>
+<li>Works even when you hit F5</li>
+<li>Offline(-enabled) applications</li>
+</ul></div></dd>
+<dt>Benefits of HTML5 Caching</dt>
+<dd><div><ul class="bullets-level1"><li>Offline browsing: users can navigate a site even when they are offline</li>
+	<li>Speed: cached resources are local, and therefore load faster</li>
+	<li>Reduced server load: the browser only downloads resources that have changed from the server</li>
+</div></dd>
+<dt>Enabling AppCache</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Include the manifest attribute in the &lt;html&gt; in pages to be cached</li>
+	<li>Include the page in the manifest file</li>
+</ul></div><pre><xmp><html manifest="example.appcache">
+  ...
+</html></xmp></pre></dd>
+<dt>Overview</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Supported by all modern browsers</li>
+	<li>Uses a manifest file that indicates which files to cache</li>
+	<li>Browser checks manifest for changes</li>
+	<li>If there are changes, all files are refreshed</li>
+	<li>External links work when online</li>
+	<li>When offline, the application works with the local cache</li>
+	<li>External links to non-cached content are redirected to fallback links</li>
+	<li><strong>Limitations:</strong>Different browsers apply different restrictions to the amount of space allocated per domain</li>
+</dd>
+<dt>Manifest file</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Text file listing files to be cached by browser</li>
+	<li>Sections can be listed in any order</li>
+	<li>Each section can appear more than once</li>
+	<li>Best practice is to put a version number as a comment and keep changing that when any resource is modified</li>
+	<li>DO NOT put the manifest itself in the cache</li>
+</ul></div>
+<pre><xmp>CACHE MANIFEST
+# v1 2011-08-14
+# This is another comment
+index.html
+cache.html
+style.css
+image1.png
+
+# Use from network if available
+NETWORK:
+network.html
+
+# Fallback content
+FALLBACK:
+/ fallback.html</xmp></pre></dd>
+<dt>Manifest File - CACHE section</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Default section</li>
+	<li>Files are cached explicitly after downloaded for the first time</li>
+	<li>No wildcards are allowed</li>
+</ul></div></dd>
+<dt>Manifest File - NETWORK section</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Files require a connection to the server</li>
+	<li>Requests to these resources bypasses the cache</li>
+	<li>Wildcards may be used</li>
+</ul></div></dd>
+<dt>Manifest File - FALLBACK section</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Fallback files to be used by browser when resource is inaccessible</li>
+	<li>Each entry contain two relative URIs - first is resource, the second is fallback</li>
+	<li>Both URIs should be from the same origin as the manifest file</li>
+	<li>Wildcards may be used</li>
+</ul></div></dd>
+<dt>AppCache Event Life Cycle Diagram</dt>
+<dd><div><img src="./resources/images/AppCacheEventLifeCycle-fig1.png"/></div></dd>
+<dt>Step 1 - Loading the document with manifest attribute</dt>
+<dd><div><ul class="bullets-level1">
+	<li>If application cache doesn't exist
+		<ul class="bullets-level2"><li>Browser loads the document</li>
+		<li>Fetches all entries in the manifest file</li>
+		<li>Creates the first version of the application cache</li></ul>
+	</li>
+	<li>If application cache exists, proceed to Step 2</li>
+</ul></div></dd>
+<dt>Step 2 - Load from cache and send checking event</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Load document and other assets in manifest file from application cache</li>
+	<li>Browser sends caching event to application cache object</li>
+	<li>Browser fetches manifest file</li>
+</ul></div></dd>
+<dt>Step 3 - If Manifest file has not changed ...</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Browser sends noupdate event to application cache object</li>
+	<li>Update process is complete</li>
+</ul></div></dd>
+<dt>Step 4 - If Manifest file has changed, load temporary cache</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Fetch files in the manifest file to temporary cache</li>
+	<li>Fetch files added explicitly through applicationCache.add() method</li>
+	<li>For each file added to temporary cache, send progress event to the applicationCache object</li>
+	<li>Send error event in case of any error</li>
+</ul></div></dd>
+<dt>Step 5 - Move from temporary cache to real offline cache</dt>
+<dd><div><ul class="bullets-level1">
+	<li>After successful retrieval of all files, contents in temporary cache moved to real cache</li>
+	<li>Send cached event to applicationCache object</li>
+	<li>Since document is already loaded in parallel, show only the cached content until user selects F5 or programmatically reloads the document</li>
+</ul></div></dd>
+<dt>applicationCache Entries</dt>
+<dd><div><ul class="bullets-level1">
+	<li>MASTER - HTML files with <code>manifest</code> attribute in their <code>&lt;html&gt;</code> element</li>
+	<li>EXPLICIT - Files listed explicitly under CACHE section in manifest file</li>
+	<li>NETWORK - Files listed in manifest file under NETWORK section</li>
+	<li>FALLBACK - Files listed in manifest file under FALLBACK section</li>
+</ul></div></dd>
+<dt>Cache States</dt>
+<dd><div><ul class="bullets-level1">
+	<li>UNCACHED - Application cache object not fully initialized</li>
+	<li>IDLE - Application cache object not being updated</li>
+	<li>CHECKING - Manifest file being fethed and checked for updates</li>
+	<li>DOWNLOADING - Resources being downloaded to application cache object as a result of manifest file change</li>
+	<li>UPDATEREADY - New version of application cache available</li>
+	<li>OBSOLETE - Application cache group is now obsolete</li>
+</ul></div></dd>
+<dt>Test updates to cache manifest</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Programmatically test to see if an application has an updated cache manifest file</li>
+</ul></div><pre>
+function onUpdateReady() {
+  alert('found new version!');
+}
+window.applicationCache.addEventListener('updateready', onUpdateReady);
+if(window.applicationCache.status === window.applicationCache.UPDATEREADY) {
+  onUpdateReady();
+}
+
+function forceUpdate() {
+	window.applicationCache.update(); //To manually test for a new manifest file
+}
+</pre></dd>
+<dt>Points to remember</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Never access cached files by using traditional GET parameters (like <code>other-cached-page.html?parameterName=value</code>)</li>
+	<li>Instead use <code>other-cached-page.html#whatever?parameterName=value</code></li>
+	<li>Simply updating cached resource is not sufficient, update manifest file too</li>
+	<li>Set expires headers on your web server for *.appcache files to expire immediately</li>
+</ul></div></dd>
+<dt>DOM Storage</dt>
+<dd></dd>
+<dt>Reference</dt>
+<dd><div><ul class="bullets-level1">
+	<li>Refer <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage"><code>https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage</code></a></li>
+	<li>Access: <a href="http://aaronboodman.com/halfnote/"><code>http://aaronboodman.com/halfnote/</code>
+</ul></div></dd>
+<dt>Manifest file</dt>
+<dd><div><ul class="bullets-level1">
+	<li></li>
+</ul></div></dd>
+<dt>Manifest file</dt>
+<dd><div><ul class="bullets-level1">
+	<li></li>
+</ul></div></dd>
+</dl>
+</body></html>
