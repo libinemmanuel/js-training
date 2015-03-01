@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="">
+First name: <input type="text" class="mandatory" name="fname" value="Donald"><br />
+last name: <input type="text" name="lname" value="Duck"><br />
+age: <input type="text" class="mandatory" name="age" value=""><br />
+<input type="button" value="Submit" onclick="validate()">
+</form> 
+
+<p id="demo"></p>
+
+<script>
+
+function validate()
+{
+	var manFields = document.getElementsByClassName("mandatory");
+	var empFields = "";
+	for(var i=0; i < manFields.length; i++)
+	{
+		if(manFields[i].value = "")
+		{
+			empFields += manFields[i].getAttribute('name');
+			alert(empFields);
+		}
+	}
+
+	document.getElementById("demo").innerHTML ="Number of forms: " + empFields;
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<img src="" id="image1" width="400" />
+
+<script>
+var i = 0;
+
+
+
+
+function slideShow()
+{
+	this.img = [];
+	this.interval = 1000;
+	this.index = 0;
+	this.start = function(index, interval, img)
+	{
+		for(index =0; index < this.img.length; index++)
+		{
+			alert("1")
+			setTimeout(function()
+			{
+				document.getElementById("image1").src = this.img[this.index];
+			},this.interval);
+		}
+	}
+}
+
+var slideShow = new slideShow();
+
+	slideShow.img.push["1.jpg"];
+	slideShow.img.push["2.jpg"];
+	slideShow.img.push["3.jpg"];
+	slideShow.interval = 500;
+	slideShow.start();
+
+//var imgList = ["1.jpg","2.jpg","3.jpg"]
+
+</script>
+
+</body>
+</html>
